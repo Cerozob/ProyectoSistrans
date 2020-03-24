@@ -1,8 +1,8 @@
-package uniandes.isis2304.parranderos.negocio;
+package uniandes.isis2304.alohandes.negocio;
 
 import java.util.List;
 
-import uniandes.isis2304.parranderos.negocio.Habitacion.TipoHabitacion;
+import uniandes.isis2304.alohandes.negocio.Habitacion.TipoHabitacion;
 
 public interface VOHabitacion 
 {

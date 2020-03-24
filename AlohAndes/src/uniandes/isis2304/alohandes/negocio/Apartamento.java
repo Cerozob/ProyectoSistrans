@@ -1,4 +1,4 @@
-package uniandes.isis2304.parranderos.negocio;
+package uniandes.isis2304.alohandes.negocio;
 
 public class Apartamento extends Hospedaje implements VOApartamento
 {

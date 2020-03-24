@@ -1,41 +1,46 @@
-package uniandes.isis2304.parranderos.negocio;
+package uniandes.isis2304.alohandes.negocio;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class ViviendaUniversitaria extends Hospedaje implements VOViviendaUniversitaria
+public class Hotel extends Hospedaje implements VOHotel
 {
 	private long id;
 	
-	private String telefono;
-	
 	private int cantidadHabitaciones;
 	
-	private long idEmpresa;
+	private int estrellas;
 	
 	private long idHospedaje;
 	
+	private List<Object []> servicios;
+	
 	private List<Object []> Habitaciones;
-
-	public ViviendaUniversitaria() {
-		super();
+	
+	private long idEmpresa;
+	
+	
+	public Hotel()
+	{
 		this.id = 0;
-		this.telefono = "";
 		this.cantidadHabitaciones = 0;
-		this.idEmpresa = 0;
+		this.estrellas = 0;
 		this.idHospedaje = 0;
+		this.idEmpresa = 0;
+		this.servicios = new LinkedList<Object []> ();
 		this.Habitaciones = new LinkedList<Object []> ();
 	}
 	
-	
-	public ViviendaUniversitaria(long id, String telefono, int cantidadHabitaciones, long idEmpresa, long idHospedaje
-			) {
+	public Hotel(long id, int cantidadHabitaciones, int estrellas, long idHospedaje, 
+			long idEmpresa) 
+	{
 		super();
 		this.id = id;
-		this.telefono = telefono;
 		this.cantidadHabitaciones = cantidadHabitaciones;
-		this.idEmpresa = idEmpresa;
+		this.estrellas = estrellas;
 		this.idHospedaje = idHospedaje;
+		this.idEmpresa = idEmpresa;
+		this.servicios = new LinkedList<Object []> ();
 		this.Habitaciones = new LinkedList<Object []> ();
 	}
 
@@ -47,14 +52,6 @@ public class ViviendaUniversitaria extends Hospedaje implements VOViviendaUniver
 		this.id = id;
 	}
 
-	public String getTelefono() {
-		return telefono;
-	}
-
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
-	}
-
 	public int getCantidadHabitaciones() {
 		return cantidadHabitaciones;
 	}
@@ -63,20 +60,32 @@ public class ViviendaUniversitaria extends Hospedaje implements VOViviendaUniver
 		this.cantidadHabitaciones = cantidadHabitaciones;
 	}
 
-	public long getIdEmpresa() {
-		return idEmpresa;
-	}
+	
 
-	public void setIdEmpresa(long idEmpresa) {
-		this.idEmpresa = idEmpresa;
+	public void setEstrellas(int estrellas) {
+		this.estrellas = estrellas;
 	}
 
 	public long getIdHospedaje() {
 		return idHospedaje;
 	}
+	
+	
+
+	public void setIdEmpresa(long idEmpresa) {
+		this.idEmpresa = idEmpresa;
+	}
 
 	public void setIdHospedaje(long idHospedaje) {
 		this.idHospedaje = idHospedaje;
+	}
+
+	public List<Object[]> getServicios() {
+		return servicios;
+	}
+
+	public void setServicios(List<Object[]> servicios) {
+		this.servicios = servicios;
 	}
 
 	public List<Object[]> getHabitaciones() {
@@ -86,8 +95,16 @@ public class ViviendaUniversitaria extends Hospedaje implements VOViviendaUniver
 	public void setHabitaciones(List<Object[]> habitaciones) {
 		Habitaciones = habitaciones;
 	}
-	
-	
-	
+
+
+	public int getEstrellas() {
+		return estrellas;
+	}
+
+	@Override
+	public long getIdEmpresa() {
+		return idEmpresa;
+	}
+
 	
 }

@@ -1,4 +1,4 @@
-package uniandes.isis2304.parranderos.negocio;
+package uniandes.isis2304.alohandes.negocio;
 
 import java.util.ArrayList;
 import java.util.List;
