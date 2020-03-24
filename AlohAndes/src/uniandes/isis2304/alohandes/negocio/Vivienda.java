@@ -1,6 +1,6 @@
 package uniandes.isis2304.alohandes.negocio;
 
-public class Vivienda {
+public class Vivienda extends Hospedaje{
 
 	private Long iDVivienda;
 	
@@ -26,6 +26,7 @@ public class Vivienda {
 	
 	public Vivienda()
 	{
+		super();
 		iDVivienda = 0L;
 		
 		numeroHabitaciones = 0;
@@ -106,7 +107,7 @@ public class Vivienda {
 		return direccion;
 	}
 
-	public Double getValorTotal() {
+	public double getValorTotal() {
 		return valorTotal;
 	}
 
