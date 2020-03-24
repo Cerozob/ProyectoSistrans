@@ -5,14 +5,17 @@ import java.util.List;
 
 public class Habitacion extends Hospedaje implements VOHabitacion
 {
-	enum  TipoHabitacion
+	public enum  TipoHabitacion
 	{
 		SUITE,
 		SEMISUITE,
 		ESTANDAR,
 		COMPARTIDA
 	}
+	private long id;
 	
+	
+
 	private TipoHabitacion tipoHabitacion;
 	
 	private int capacidad;
@@ -33,6 +36,7 @@ public class Habitacion extends Hospedaje implements VOHabitacion
 	
 	public Habitacion() {
 		super();
+		this.id = 0;
 		this.tipoHabitacion = null;
 		this.capacidad = 0;
 		this.numero = 0;
@@ -45,9 +49,10 @@ public class Habitacion extends Hospedaje implements VOHabitacion
 	}
 	
 	
-	public Habitacion(TipoHabitacion tipoHabitacion, int capacidad, int numero, long idVivienda, long idHotel,
+	public Habitacion(long id, TipoHabitacion tipoHabitacion, int capacidad, int numero, long idVivienda, long idHotel,
 			long idHospedaje, long idHostal, long idPersonaNatural) {
 		super();
+		this.id = id;
 		this.tipoHabitacion = tipoHabitacion;
 		this.capacidad = capacidad;
 		this.numero = numero;
@@ -57,6 +62,15 @@ public class Habitacion extends Hospedaje implements VOHabitacion
 		this.idHostal = idHostal;
 		this.idPersonaNatural = idPersonaNatural;
 		this.servicios = new LinkedList<Object []> ();
+	}
+	
+	public long getId() {
+		return id;
+	}
+
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public TipoHabitacion getTipoHabitacion() {

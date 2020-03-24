@@ -18,9 +18,14 @@ public class Hostal extends Hospedaje implements VOHostal
 	
 	private long idHospedaje;
 	
+	private long NIT_EMPRESA;
 	
+	
+	
+
 	public Hostal() {
 		super();
+		this.NIT_EMPRESA = 0;
 		this.id = 0;
 		Date fecha = new Date();
 		this.apertura = fecha;
@@ -31,8 +36,9 @@ public class Hostal extends Hospedaje implements VOHostal
 	}
 	
 	public Hostal(long id, Date apertura, Date cierre, 
-			long idHospedaje) {
+			long idHospedaje, long NIT_EMPRESA) {
 		super();
+		this.NIT_EMPRESA = NIT_EMPRESA;
 		this.id = id;
 		this.apertura = apertura;
 		this.cierre = cierre;
@@ -87,6 +93,14 @@ public class Hostal extends Hospedaje implements VOHostal
 
 	public void setIdHospedaje(long idHospedaje) {
 		this.idHospedaje = idHospedaje;
+	}
+	
+	public long getNIT_EMPRESA() {
+		return NIT_EMPRESA;
+	}
+
+	public void setNIT_EMPRESA(long nIT_EMPRESA) {
+		NIT_EMPRESA = nIT_EMPRESA;
 	}
 	
 	
