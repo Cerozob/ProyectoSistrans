@@ -13,20 +13,10 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Transaction;
 
-import org.apache.log4j.Logger;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-
-import uniandes.isis2304.parranderos.persistencia.PersistenciaParranderos;
-import uniandes.isis2304.parranderos.persistencia.SQLBar;
-import uniandes.isis2304.parranderos.persistencia.SQLBebedor;
-import uniandes.isis2304.parranderos.persistencia.SQLBebida;
-import uniandes.isis2304.parranderos.persistencia.SQLGustan;
-import uniandes.isis2304.parranderos.persistencia.SQLSirven;
-import uniandes.isis2304.parranderos.persistencia.SQLTipoBebida;
-import uniandes.isis2304.parranderos.persistencia.SQLUtil;
-import uniandes.isis2304.parranderos.persistencia.SQLVisitan;
 
 public class PersistenciaAlohandes {
 

@@ -1,6 +1,6 @@
 package uniandes.isis2304.alohandes.negocio;
 
-public class Vivienda extends Hospedaje{
+public class Vivienda extends Hospedaje implements VOVivienda{
 
 	private Long iDVivienda;
 	

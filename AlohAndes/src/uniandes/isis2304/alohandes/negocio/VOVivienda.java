@@ -21,5 +21,6 @@ public interface VOVivienda {
 	public String getNombre();
 
 	public String getDireccion() ;
-	public Double getValorTotal() ;
+	
+	public double getValorTotal() ;
 }
