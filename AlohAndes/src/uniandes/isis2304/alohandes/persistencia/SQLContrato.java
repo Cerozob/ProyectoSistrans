@@ -19,11 +19,11 @@ private final static String SQL = PersistenciaAlohandes.SQL;
 	}
 	
 	
-	public long adicionarContrato (PersistenceManager pm,Long iDContrato, Double valor, Date fecha_Inicio,  Date fecha_Final,Long iDHospedaje,
+	public long adicionarContrato (PersistenceManager pm,Long iDContrato, Double valor,Date fecha_Reserva, Date fecha_Inicio,  Date fecha_Final,Long iDHospedaje,
 			Long iDCedulaCliente, Long nit_Empresa, Long cedulaPersonaNatural) 
 	{
-        Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaContrato() + "(idContrato, valor, fecha_inicio,fecha_final, idhospedaje, idcedulacliente,nit_empresa,cedulapersonanatural) values (?, ?, ?, ?, ?, ?, ?, ?)");
-        q.setParameters(iDContrato, valor, fecha_Inicio,fecha_Final,  iDHospedaje,
+        Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaContrato() + "(idContrato, valor,fecha_reserva, fecha_inicio,fecha_final, idhospedaje, idcedulacliente,nit_empresa,cedulapersonanatural) values (?, ?, ?, ?, ?, ?, ?, ,??)");
+        q.setParameters(iDContrato, valor, fecha_Reserva,fecha_Inicio,fecha_Final,  iDHospedaje,
     			 iDCedulaCliente, nit_Empresa, cedulaPersonaNatural);
         return (long) q.executeUnique();
 	}

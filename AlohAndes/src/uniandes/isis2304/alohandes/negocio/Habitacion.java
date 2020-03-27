@@ -10,7 +10,8 @@ public class Habitacion extends Hospedaje implements VOHabitacion
 		SUITE,
 		SEMISUITE,
 		ESTANDAR,
-		COMPARTIDA
+		COMPARTIDA,
+		CASA
 	}
 	private long id;
 	

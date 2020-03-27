@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.jdo.JDODataStoreException;
 import javax.jdo.JDOHelper;
@@ -348,9 +349,9 @@ public class PersistenciaAlohandes {
 		try
 		{
 			tx.begin();
-			sqlContrato.adicionarContrato(pm, iDContrato, valor,fecha_Inicio, fecha_Final,  iDHospedaje, iDCedulaCliente, nit_Empresa, cedulaPersonaNatural);
+			sqlContrato.adicionarContrato(pm, iDContrato, valor,new Date(),fecha_Inicio, fecha_Final,  iDHospedaje, iDCedulaCliente, nit_Empresa, cedulaPersonaNatural);
 			tx.commit();
-			return new Contrato(iDContrato, valor,  fecha_Inicio,fecha_Final, iDHospedaje, iDCedulaCliente, nit_Empresa, cedulaPersonaNatural);
+			return new Contrato(iDContrato, valor, new Date(), fecha_Inicio,fecha_Final, iDHospedaje, iDCedulaCliente, nit_Empresa, cedulaPersonaNatural);
 		}
 		catch (Exception e)
 		{
@@ -418,14 +419,37 @@ public class PersistenciaAlohandes {
 	}
 	
 	//RF3 Privacidad
-	public synchronized void cancelarReserva(Long cedula, Long iDContrato)
+	public synchronized Contrato cancelarReserva(Long cedula, Long iDContrato)
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
 		
 		Contrato c = sqlContrato.darContratoPorId(pm, iDContrato);
+		double valor = c.getValor();
+		Date realizada = c.getFecha_realizada();
+		Date fechainicio = c.getFecha_Inicio();
+		Date fechafin = c.getFecha_Final();
 		if (c.getiDCedulaCliente().equals(cedula))
 		{
 			cancelarContrato(iDContrato);
+		}
+		
+		Long dif = Math.abs(fechafin.getTime()-fechainicio.getTime());
+		int dias =(int) TimeUnit.DAYS.convert(dif, TimeUnit.MILLISECONDS);
+		int diasRealizada = (int) TimeUnit.DAYS.convert(new Date().getTime()-realizada.getTime(), TimeUnit.MILLISECONDS);
+		if(dias < 7)
+		{
+			if(diasRealizada <= 3)
+			{
+				return new Contrato(c.getiDContrato(),c.getValor()*0.1,null,null,null,0L,c.getiDCedulaCliente(),0L,0L);
+			}
+			else if (diasRealizada > 3 && new Date() )
+			{
+				
+			}
+		}
+		else
+		{
+			
 		}
 	}
 	

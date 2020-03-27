@@ -6,6 +6,7 @@ import java.util.List;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import uniandes.isis2304.alohandes.negocio.Hospedaje;
+import uniandes.isis2304.alohandes.negocio.Hospedaje.TipoHospedaje;
 
 public class SQLHospedaje
 {
@@ -18,10 +19,10 @@ public class SQLHospedaje
 		this.pp = pp;
 	}
 
-	public long adicionarHospedaje (PersistenceManager pm, long id, String nombre, String direccion, double valorTotal) 
+	public long adicionarHospedaje (PersistenceManager pm, long id, String nombre, String direccion,TipoHospedaje tipo, double valorTotal) 
 	{
-		Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaHospedaje() + "((idHospedaje , nombre, direccion, valorTotal ) values (?, ?, ?, ?)");
-		q.setParameters(id, nombre, direccion, valorTotal);
+		Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaHospedaje() + "((idHospedaje , nombre, direccion,tipohospedaje, valorTotal ) values (?, ?, ?,?, ?)");
+		q.setParameters(id, nombre, direccion,tipo, valorTotal);
 		return (long) q.executeUnique();
 	}
 

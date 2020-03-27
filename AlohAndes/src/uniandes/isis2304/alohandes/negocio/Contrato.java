@@ -19,6 +19,8 @@ public class Contrato implements VOContrato{
 
 	private Long cedulaPersonaNatural;
 
+	private Date fecha_realizada;
+	
 	public Contrato()
 	{
 		Date d = new Date();
@@ -40,7 +42,7 @@ public class Contrato implements VOContrato{
 		cedulaPersonaNatural = 0L;
 	}
 
-	public Contrato(Long iDContrato, Double valor,  Date fecha_Inicio, Date fecha_Final, Long iDHospedaje,
+	public Contrato(Long iDContrato, Double valor,Date fecha_realizada,  Date fecha_Inicio, Date fecha_Final, Long iDHospedaje,
 			Long iDCedulaCliente, Long nit_Empresa, Long cedulaPersonaNatural) {
 		super();
 		this.iDContrato = iDContrato;
@@ -51,6 +53,7 @@ public class Contrato implements VOContrato{
 		this.iDCedulaCliente = iDCedulaCliente;
 		this.nit_Empresa = nit_Empresa;
 		this.cedulaPersonaNatural = cedulaPersonaNatural;
+		this.fecha_realizada = fecha_realizada;
 	}
 
 	public Long getiDContrato() {
@@ -115,5 +118,13 @@ public class Contrato implements VOContrato{
 
 	public void setCedulaPersonaNatural(Long cedulaPersonaNatural) {
 		this.cedulaPersonaNatural = cedulaPersonaNatural;
+	}
+
+	public Date getFecha_realizada() {
+		return fecha_realizada;
+	}
+
+	public void setFecha_realizada(Date fecha_realizada) {
+		this.fecha_realizada = fecha_realizada;
 	}
 }

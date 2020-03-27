@@ -3,9 +3,19 @@ package uniandes.isis2304.alohandes.negocio;
 import java.util.LinkedList;
 import java.util.List;
 
+import uniandes.isis2304.alohandes.negocio.Habitacion.TipoHabitacion;
+
 public class Hospedaje implements VOHospedaje
 {
-	
+
+	public enum TipoHospedaje{
+		APARTAMENTO,
+		VIVIENDA,
+		HABITACION,
+		VIVIENDA_UNIVERSITARIA,
+		HOTEL,
+		HOSTAL
+	}
 	private long id; 
 
 	private String nombre;
@@ -15,6 +25,8 @@ public class Hospedaje implements VOHospedaje
 	private double valorTotal;
 	
 	private List<Object []> contratos;
+	
+	private TipoHospedaje tipo;
 	
 	public Hospedaje() {
 		super();
@@ -26,13 +38,14 @@ public class Hospedaje implements VOHospedaje
 	}
 	
 
-	public Hospedaje(long id, String nombre, String direccion, double valorTotal, List<Object[]> contratos) {
+	public Hospedaje(long id, String nombre, String direccion, double valorTotal, List<Object[]> contratos, TipoHospedaje pTipo) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.direccion = direccion;
 		this.valorTotal = valorTotal;
 		contratos = new LinkedList<Object []> ();
+		tipo = pTipo;
 	}
 
 	public List<Object[]> getContratos() {
@@ -74,6 +87,16 @@ public class Hospedaje implements VOHospedaje
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+
+	public TipoHospedaje getTipo() {
+		return tipo;
+	}
+
+
+	public void setTipo(TipoHospedaje tipo) {
+		this.tipo = tipo;
 	}
 
 	

@@ -1,7 +1,8 @@
 package uniandes.isis2304.alohandes.negocio;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import uniandes.isis2304.alohandes.negocio.Hospedaje.TipoHospedaje;
 
 public interface  VOHospedaje 
 {
@@ -15,5 +16,5 @@ public interface  VOHospedaje
 	
 	public List<Object []>  getContratos();
 	
-	
+	public TipoHospedaje getTipo();
 }

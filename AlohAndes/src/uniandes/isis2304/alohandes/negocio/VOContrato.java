@@ -20,4 +20,5 @@ public interface VOContrato {
 	
 	public Long getCedulaPersonaNatural();
 	
+	public Date getFecha_realizada();
 }
