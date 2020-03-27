@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,6 +18,13 @@ import javax.jdo.Transaction;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
+import uniandes.isis2304.alohandes.negocio.Cliente;
+import uniandes.isis2304.alohandes.negocio.Contrato;
+import uniandes.isis2304.alohandes.negocio.Empresa;
+import uniandes.isis2304.alohandes.negocio.Hospedaje;
+import uniandes.isis2304.alohandes.negocio.PersonaNatural;
+import uniandes.isis2304.alohandes.negocio.VOCliente.TIPO_VINCULO;
 
 public class PersistenciaAlohandes {
 
@@ -71,12 +79,12 @@ public class PersistenciaAlohandes {
 	{
 		crearClasesSQL ();
 		tablas = leerNombresTablas (tableConfig);
-		
+
 		String unidadPersistencia = tableConfig.get ("unidadPersistencia").getAsString ();
-		log.trace ("Accediendo unidad de persistencia: " + unidadPersistencia);
+
 		pmf = JDOHelper.getPersistenceManagerFactory (unidadPersistencia);
 	}
-	
+
 	public static PersistenciaAlohandes getInstance ()
 	{
 		if (instance == null)
@@ -85,7 +93,7 @@ public class PersistenciaAlohandes {
 		}
 		return instance;
 	}
-	
+
 	public static PersistenciaAlohandes getInstance (JsonObject tableConfig)
 	{
 		if (instance == null)
@@ -103,7 +111,7 @@ public class PersistenciaAlohandes {
 		pmf.close ();
 		instance = null;
 	}
-	
+
 	private List <String> leerNombresTablas (JsonObject tableConfig)
 	{
 		JsonArray nombres = tableConfig.getAsJsonArray("tablas") ;
@@ -113,10 +121,10 @@ public class PersistenciaAlohandes {
 		{
 			resp.add (nom.getAsString ());
 		}
-		
+
 		return resp;
 	}
-	
+
 	/**
 	 * Crea los atributos de clases de apoyo SQL
 	 */
@@ -134,35 +142,35 @@ public class PersistenciaAlohandes {
 		sqlServicio = new SQLServicio(this);	
 		sqlVivienda = new SQLVivienda(this);	
 		sqlViviendaUniversitaria = new SQLViviendaUniversitaria(this);	
-		
+
 		sqlUtil = new SQLUtil(this);
 	}
-	
+
 	public String darSeqAlohandes ()
 	{
 		return tablas.get (0);
 	}
-	
+
 	public String darTablaApartamento ()
 	{
 		return tablas.get (1);
 	}
-	
+
 	public String darTablaCliente ()
 	{
 		return tablas.get (2);
 	}
-	
+
 	public String darTablaContrato ()
 	{
 		return tablas.get (3);
 	}
-	
+
 	public String darTablaEmpresa ()
 	{
 		return tablas.get (4);
 	}
-	
+
 	public String darTablaHabitacion()
 	{
 		return tablas.get (5);
@@ -179,7 +187,7 @@ public class PersistenciaAlohandes {
 	{
 		return tablas.get (8);
 	}
-	
+
 	public String darTablaPersonaNatural ()
 	{
 		return tablas.get (9);
@@ -196,14 +204,13 @@ public class PersistenciaAlohandes {
 	{
 		return tablas.get (12);
 	}
-	
+
 	private long nextval ()
 	{
-        long resp = sqlUtil.nextval (pmf.getPersistenceManager());
-        log.trace ("Generando secuencia: " + resp);
-        return resp;
-    }
-	
+		long resp = sqlUtil.nextval (pmf.getPersistenceManager());
+		return resp;
+	}
+
 	private String darDetalleException(Exception e) 
 	{
 		String resp = "";
@@ -214,34 +221,200 @@ public class PersistenciaAlohandes {
 		}
 		return resp;
 	}
-	
-	
+
+
 	public long [] limpiarAlohandes ()
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
-        Transaction tx=pm.currentTransaction();
-        try
-        {
-            tx.begin();
-            long [] resp = sqlUtil.limpiarParranderos (pm);
-            tx.commit ();
-            log.info ("Borrada la base de datos");
-            return resp;
-        }
-        catch (Exception e)
-        {
-//        	e.printStackTrace();
-        	log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
-        	return new long[] {-1, -1, -1, -1, -1, -1, -1};
-        }
-        finally
-        {
-            if (tx.isActive())
-            {
-                tx.rollback();
-            }
-            pm.close();
-        }
-		
+		Transaction tx=pm.currentTransaction();
+		try
+		{
+			tx.begin();
+			long [] resp = sqlUtil.limpiarParranderos (pm);
+			tx.commit ();
+			log.info ("Borrada la base de datos");
+			return resp;
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return new long[] {-1, -1, -1, -1, -1, -1, -1};
+		}
+		finally
+		{
+			if (tx.isActive())
+			{
+				tx.rollback();
+			}
+			pm.close();
+		}
+
 	}
+
+	//Requerimientos Funcionales
+
+	//RF1 Parte 1 de 2
+	public Empresa registrarEmpresaOperadorAlojamiento(Long nit,Boolean registradocamaracomercio,Boolean registradoSuperintendenciaTurismo,String nombre, String web, Long numeropago)
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx=pm.currentTransaction();
+		try
+		{
+			tx.begin();
+			sqlEmpresa.adicionarEmpresa(pm, nit, registradocamaracomercio, registradoSuperintendenciaTurismo, nombre, web, numeropago);
+			tx.commit();
+			return new Empresa(nit, registradocamaracomercio, registradoSuperintendenciaTurismo, nombre, web, numeropago);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace(); 	
+			return null;
+		}
+		finally
+		{
+			if (tx.isActive())
+			{
+				tx.rollback();
+			}
+			pm.close();
+		}
+	}
+
+	//RF1 Parte 2
+	public PersonaNatural registrarPersonaNaturalOperadorAlojamiento(Long identificacion, String nombre, String apellido, Long numeroPago)
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx=pm.currentTransaction();
+		try
+		{
+			tx.begin();
+			sqlPersonaNatural.adicionarPersonaNatural(pm, identificacion, nombre, apellido, numeroPago);
+			tx.commit();
+			return new PersonaNatural(identificacion, nombre, apellido, numeroPago);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace(); 	
+			return null;
+		}
+		finally
+		{
+			if (tx.isActive())
+			{
+				tx.rollback();
+			}
+			pm.close();
+		}
+	}
+
+	public Hospedaje registrarPropuestaAlojamiento()
+	{
+
+	}
+
+	//RF3
+	public Cliente registrarCliente(Long identificacion, String nombre, String apellido, TIPO_VINCULO vinculo, Long numero_pago)
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx=pm.currentTransaction();
+		try
+		{
+			tx.begin();
+			sqlCliente.adicionarCliente(pm, identificacion, nombre, apellido, vinculo, numero_pago);
+			tx.commit();
+			return new Cliente(identificacion, nombre, apellido, vinculo, numero_pago);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace(); 	
+			return null;
+		}
+		finally
+		{
+			if (tx.isActive())
+			{
+				tx.rollback();
+			}
+			pm.close();
+		}
+	}
+
+	//RF4
+	public Contrato registrarReserva(Long iDContrato, Double valor, Date fecha_Final, Date fecha_Inicio, Long iDHospedaje,
+			Long iDCedulaCliente, Long nit_Empresa, Long cedulaPersonaNatural)
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx=pm.currentTransaction();
+		try
+		{
+			tx.begin();
+			sqlContrato.adicionarContrato(pm, iDContrato, valor, fecha_Final, fecha_Inicio, iDHospedaje, iDCedulaCliente, nit_Empresa, cedulaPersonaNatural);
+			tx.commit();
+			return new Contrato(iDContrato, valor, fecha_Final, fecha_Inicio, iDHospedaje, iDCedulaCliente, nit_Empresa, cedulaPersonaNatural);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace(); 	
+			return null;
+		}
+		finally
+		{
+			if (tx.isActive())
+			{
+				tx.rollback();
+			}
+			pm.close();
+		}
+	}
+
+	//RF5
+	public void cancelarReserva(Long iDContrato)
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx=pm.currentTransaction();
+		try
+		{
+			tx.begin();
+			sqlContrato.eliminarContratosPorId(pm, iDContrato);
+			tx.commit();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace(); 	
+		}
+		finally
+		{
+			if (tx.isActive())
+			{
+				tx.rollback();
+			}
+			pm.close();
+		}
+	}
+	
+	//RF6
+	public synchronized void cancelarAlojamiento(Long idHospedaje)
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx=pm.currentTransaction();
+		try
+		{
+			tx.begin();
+			sqlHospedaje.eliminarHospedajePorId(pm, idHospedaje);
+			tx.commit();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace(); 	
+		}
+		finally
+		{
+			if (tx.isActive())
+			{
+				tx.rollback();
+			}
+			pm.close();
+		}
+	}
+	
 }

@@ -3,6 +3,9 @@ package uniandes.isis2304.alohandes.persistencia;
 
 import java.util.List;
 
+import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
+
 import uniandes.isis2304.alohandes.negocio.Habitacion.TipoHabitacion;
 import uniandes.isis2304.alohandes.negocio.Hospedaje;
 
