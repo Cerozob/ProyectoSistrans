@@ -424,7 +424,6 @@ public class PersistenciaAlohandes {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		
 		Contrato c = sqlContrato.darContratoPorId(pm, iDContrato);
-		double valor = c.getValor();
 		Date realizada = c.getFecha_realizada();
 		Date fechainicio = c.getFecha_Inicio();
 		Date fechafin = c.getFecha_Final();
@@ -442,15 +441,29 @@ public class PersistenciaAlohandes {
 			{
 				return new Contrato(c.getiDContrato(),c.getValor()*0.1,null,null,null,0L,c.getiDCedulaCliente(),0L,0L);
 			}
-			else if (diasRealizada > 3 && new Date() )
+			else if (diasRealizada > 3 && fechainicio.before(new Date())&& fechafin.after(new Date()))
 			{
-				
+				return new Contrato(c.getiDContrato(),c.getValor()*0.5,null,null,null,0L,c.getiDCedulaCliente(),0L,0L);
+			}
+			else if ( fechafin.after(new Date()) ){
+				return new Contrato(c.getiDContrato(),c.getValor()*0.3,null,null,null,0L,c.getiDCedulaCliente(),0L,0L);
 			}
 		}
 		else
 		{
-			
+			if(diasRealizada <= 7)
+			{
+				return new Contrato(c.getiDContrato(),c.getValor()*0.1,null,null,null,0L,c.getiDCedulaCliente(),0L,0L);
+			}
+			else if (diasRealizada > 7 && fechainicio.before(new Date()) && fechafin.after(new Date()))
+			{
+				return new Contrato(c.getiDContrato(),c.getValor()*0.5,null,null,null,0L,c.getiDCedulaCliente(),0L,0L);
+			}
+			else if ( fechafin.after(new Date()) ){
+				return new Contrato(c.getiDContrato(),c.getValor()*0.3,null,null,null,0L,c.getiDCedulaCliente(),0L,0L);
+			}
 		}
+		return c;
 	}
 	
 	//RF6 Privacidad
