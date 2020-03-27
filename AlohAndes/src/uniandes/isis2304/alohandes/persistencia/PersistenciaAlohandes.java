@@ -280,7 +280,7 @@ public class PersistenciaAlohandes {
 		}
 	}
 
-	//RF1 Parte 2
+	//RF1 Parte 2 de 2
 	public synchronized PersonaNatural registrarPersonaNaturalOperadorAlojamiento(Long identificacion, String nombre, String apellido, Long numeroPago)
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
