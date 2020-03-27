@@ -40,7 +40,7 @@ public class Contrato implements VOContrato{
 		cedulaPersonaNatural = 0L;
 	}
 
-	public Contrato(Long iDContrato, Double valor, Date fecha_Final, Date fecha_Inicio, Long iDHospedaje,
+	public Contrato(Long iDContrato, Double valor,  Date fecha_Inicio, Date fecha_Final, Long iDHospedaje,
 			Long iDCedulaCliente, Long nit_Empresa, Long cedulaPersonaNatural) {
 		super();
 		this.iDContrato = iDContrato;

@@ -254,7 +254,7 @@ public class PersistenciaAlohandes {
 	//Requerimientos Funcionales
 
 	//RF1 Parte 1 de 2
-	public Empresa registrarEmpresaOperadorAlojamiento(Long nit,Boolean registradocamaracomercio,Boolean registradoSuperintendenciaTurismo,String nombre, String web, Long numeropago)
+	public synchronized Empresa registrarEmpresaOperadorAlojamiento(Long nit,Boolean registradocamaracomercio,Boolean registradoSuperintendenciaTurismo,String nombre, String web, Long numeropago)
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx=pm.currentTransaction();
@@ -281,7 +281,7 @@ public class PersistenciaAlohandes {
 	}
 
 	//RF1 Parte 2
-	public PersonaNatural registrarPersonaNaturalOperadorAlojamiento(Long identificacion, String nombre, String apellido, Long numeroPago)
+	public synchronized PersonaNatural registrarPersonaNaturalOperadorAlojamiento(Long identificacion, String nombre, String apellido, Long numeroPago)
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx=pm.currentTransaction();
@@ -307,13 +307,13 @@ public class PersistenciaAlohandes {
 		}
 	}
 
-	public Hospedaje registrarPropuestaAlojamiento()
+	public synchronized Hospedaje registrarPropuestaAlojamiento()
 	{
 
 	}
 
 	//RF3
-	public Cliente registrarCliente(Long identificacion, String nombre, String apellido, TIPO_VINCULO vinculo, Long numero_pago)
+	public synchronized Cliente registrarCliente(Long identificacion, String nombre, String apellido, TIPO_VINCULO vinculo, Long numero_pago)
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx=pm.currentTransaction();
@@ -340,7 +340,7 @@ public class PersistenciaAlohandes {
 	}
 
 	//RF4
-	public Contrato registrarReserva(Long iDContrato, Double valor, Date fecha_Final, Date fecha_Inicio, Long iDHospedaje,
+	public synchronized Contrato registrarReserva(Long iDContrato, Double valor, Date fecha_Inicio,Date fecha_Final,  Long iDHospedaje,
 			Long iDCedulaCliente, Long nit_Empresa, Long cedulaPersonaNatural)
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
@@ -348,9 +348,9 @@ public class PersistenciaAlohandes {
 		try
 		{
 			tx.begin();
-			sqlContrato.adicionarContrato(pm, iDContrato, valor, fecha_Final, fecha_Inicio, iDHospedaje, iDCedulaCliente, nit_Empresa, cedulaPersonaNatural);
+			sqlContrato.adicionarContrato(pm, iDContrato, valor,fecha_Inicio, fecha_Final,  iDHospedaje, iDCedulaCliente, nit_Empresa, cedulaPersonaNatural);
 			tx.commit();
-			return new Contrato(iDContrato, valor, fecha_Final, fecha_Inicio, iDHospedaje, iDCedulaCliente, nit_Empresa, cedulaPersonaNatural);
+			return new Contrato(iDContrato, valor,  fecha_Inicio,fecha_Final, iDHospedaje, iDCedulaCliente, nit_Empresa, cedulaPersonaNatural);
 		}
 		catch (Exception e)
 		{
@@ -368,7 +368,7 @@ public class PersistenciaAlohandes {
 	}
 
 	//RF5
-	public void cancelarReserva(Long iDContrato)
+	private synchronized void cancelarContrato(Long iDContrato)
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx=pm.currentTransaction();
@@ -393,7 +393,7 @@ public class PersistenciaAlohandes {
 	}
 	
 	//RF6
-	public synchronized void cancelarAlojamiento(Long idHospedaje)
+	private synchronized void cancelarHospedaje(Long idHospedaje)
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx=pm.currentTransaction();
@@ -417,4 +417,23 @@ public class PersistenciaAlohandes {
 		}
 	}
 	
+	//RF3 Privacidad
+	public synchronized void cancelarReserva(Long cedula, Long iDContrato)
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+		
+		Contrato c = sqlContrato.darContratoPorId(pm, iDContrato);
+		if (c.getiDCedulaCliente().equals(cedula))
+		{
+			cancelarContrato(iDContrato);
+		}
+	}
+	
+	//RF6 Privacidad
+	public synchronized void cancelarAlojamiento(Long cedula, Long iDHospedaje)
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+		
+		Hospedaje h = sqlHospedaje.darHospedajePorId(pm, iDHospedaje);
+	}
 }

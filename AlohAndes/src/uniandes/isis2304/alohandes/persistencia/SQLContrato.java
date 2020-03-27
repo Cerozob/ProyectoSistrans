@@ -19,11 +19,11 @@ private final static String SQL = PersistenciaAlohandes.SQL;
 	}
 	
 	
-	public long adicionarContrato (PersistenceManager pm,Long iDContrato, Double valor, Date fecha_Final, Date fecha_Inicio, Long iDHospedaje,
+	public long adicionarContrato (PersistenceManager pm,Long iDContrato, Double valor, Date fecha_Inicio,  Date fecha_Final,Long iDHospedaje,
 			Long iDCedulaCliente, Long nit_Empresa, Long cedulaPersonaNatural) 
 	{
-        Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaContrato() + "(idContrato, valor, fecha_final,fecha_inicio, idhospedaje, idcedulacliente,nit_empresa,cedulapersonanatural) values (?, ?, ?, ?, ?, ?, ?, ?)");
-        q.setParameters(iDContrato, valor, fecha_Final, fecha_Inicio, iDHospedaje,
+        Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaContrato() + "(idContrato, valor, fecha_inicio,fecha_final, idhospedaje, idcedulacliente,nit_empresa,cedulapersonanatural) values (?, ?, ?, ?, ?, ?, ?, ?)");
+        q.setParameters(iDContrato, valor, fecha_Inicio,fecha_Final,  iDHospedaje,
     			 iDCedulaCliente, nit_Empresa, cedulaPersonaNatural);
         return (long) q.executeUnique();
 	}
@@ -50,6 +50,14 @@ private final static String SQL = PersistenciaAlohandes.SQL;
 	{
 		Query q = pm.newQuery(SQL, "SELECT * FROM " + pp.darTablaContrato ());
 		q.setResultClass(Contrato.class);
+		return (List<Contrato>) q.executeList();
+	}
+	
+	public List<Contrato> darContratosPorIdHospedaje (PersistenceManager pm, long idHospedaje) 
+	{
+		Query q = pm.newQuery(SQL, "SELECT * FROM " + pp.darTablaContrato () + " WHERE idhospedaje = ?");
+		q.setResultClass(Contrato.class);
+		q.setParameters(idHospedaje);
 		return (List<Contrato>) q.executeList();
 	}
 }
