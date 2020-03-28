@@ -477,4 +477,7 @@ public class PersistenciaAlohandes {
 			cancelarHospedaje(iDHospedaje);
 		}
 	}
+	
+	
+
 }
