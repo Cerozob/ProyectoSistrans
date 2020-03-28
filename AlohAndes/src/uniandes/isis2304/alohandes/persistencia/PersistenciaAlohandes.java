@@ -23,7 +23,9 @@ import com.google.gson.JsonObject;
 import uniandes.isis2304.alohandes.negocio.Cliente;
 import uniandes.isis2304.alohandes.negocio.Contrato;
 import uniandes.isis2304.alohandes.negocio.Empresa;
+import uniandes.isis2304.alohandes.negocio.Habitacion;
 import uniandes.isis2304.alohandes.negocio.Hospedaje;
+import uniandes.isis2304.alohandes.negocio.Hospedaje.TipoHospedaje;
 import uniandes.isis2304.alohandes.negocio.PersonaNatural;
 import uniandes.isis2304.alohandes.negocio.VOCliente.TIPO_VINCULO;
 
@@ -392,7 +394,7 @@ public class PersistenciaAlohandes {
 			pm.close();
 		}
 	}
-	
+
 	//RF6
 	private synchronized void cancelarHospedaje(Long idHospedaje)
 	{
@@ -417,12 +419,12 @@ public class PersistenciaAlohandes {
 			pm.close();
 		}
 	}
-	
+
 	//RF3 Privacidad
 	public synchronized Contrato cancelarReserva(Long cedula, Long iDContrato)
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
-		
+
 		Contrato c = sqlContrato.darContratoPorId(pm, iDContrato);
 		Date realizada = c.getFecha_realizada();
 		Date fechainicio = c.getFecha_Inicio();
@@ -431,7 +433,7 @@ public class PersistenciaAlohandes {
 		{
 			cancelarContrato(iDContrato);
 		}
-		
+
 		Long dif = Math.abs(fechafin.getTime()-fechainicio.getTime());
 		int dias =(int) TimeUnit.DAYS.convert(dif, TimeUnit.MILLISECONDS);
 		int diasRealizada = (int) TimeUnit.DAYS.convert(new Date().getTime()-realizada.getTime(), TimeUnit.MILLISECONDS);
@@ -465,12 +467,14 @@ public class PersistenciaAlohandes {
 		}
 		return c;
 	}
-	
+
 	//RF6 Privacidad
-	public synchronized void cancelarAlojamiento(Long cedula, Long iDHospedaje)
+	public synchronized void cancelarAlojamiento(Long ID, Long iDHospedaje)
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
-		
-		Hospedaje h = sqlHospedaje.darHospedajePorId(pm, iDHospedaje);
+		if(ID.equals(sqlHospedaje.darIdDuenio(pm, iDHospedaje)))
+		{
+			cancelarHospedaje(iDHospedaje);
+		}
 	}
 }
