@@ -13,16 +13,12 @@ CREATE TABLE Cliente
     fecha_reserva DATE,
     fecha_inicio DATE,
     fecha_Final DATE,
+    capacidad number,
     CONSTRAINT CONTRATO_PK PRIMARY KEY (IdContrato),
     idHospedaje number NOT NULL,
     idCedulaCliente number NOT NULL,
     NIT_EMPRESA number,
     cedulaPersonaNatural number);
-    
-Alter table CONTRATO
-add constraint tiempo_apto_habita_vivienda
-    CHECK(SELECT FROM HOSPEDAJE))
-
 --Crea tabla personaNatural
 CREATE TABLE PERSONA_NATURAL
     (identificacion number,
@@ -92,7 +88,7 @@ CREATE TABLE SERVICIO
     tipoHospedaje varChar2(255 byte),
     CONSTRAINT hospedaje_PK PRIMARY KEY (idHospedaje)
     );
-alter table
+alter table HOSPEDAJE
 add constraint CK_TIPOHOSPEDAJE
 check( tipoHospedaje in ('APARTAMENTO', 'VIVIENDA', 'VIVIENDA_UNIVERSITARIA', 'HOTEL', 'HOSTAL', 'HABITACION'));
 
@@ -114,8 +110,8 @@ CREATE TABLE VIVIENDA_UNIVERSITARIA
 
     CREATE TABLE HOSTAL
     (IdHostal number,
-    apertura TIME,
-    cierre TIME,
+    apertura number,
+    cierre number,
     idHospedaje number not null,
     NIT_EMPRESA number,
     CONSTRAINT hostal_PK PRIMARY KEY (IdHostal));
@@ -318,3 +314,8 @@ ALTER TABLE HOSTAL
         REFERENCES EMPRESA (NIT)
         ON DELETE CASCADE
 ;
+
+ALTER TABLE HOSTAL
+add constraint HORARIO_HOSTAL
+CHECK(apertura >=0 AND cierre >=0 AND cierre <=24 AND apertura <= 24)
+ENABLE;

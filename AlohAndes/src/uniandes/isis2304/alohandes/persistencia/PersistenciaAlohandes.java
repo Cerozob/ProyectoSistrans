@@ -310,11 +310,6 @@ public class PersistenciaAlohandes {
 		}
 	}
 
-	public synchronized Hospedaje registrarPropuestaAlojamiento()
-	{
-
-	}
-
 	//RF3
 	public synchronized Cliente registrarCliente(Long identificacion, String nombre, String apellido, TIPO_VINCULO vinculo, Long numero_pago)
 	{
